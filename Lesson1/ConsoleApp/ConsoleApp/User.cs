@@ -12,7 +12,7 @@ namespace ConsoleApp
         private string _name;
         private int _salary;
 
-        User(int id, string name, int salary)
+        public User(int id, string name, int salary)
         {
             _id = id;
             _name = name;
