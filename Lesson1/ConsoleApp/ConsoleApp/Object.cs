@@ -22,7 +22,7 @@ namespace ConsoleApp
 
         public int Xpositions => _xPosition;
         public int Ypositions => _yPosition;
-        public bool IsAlive { get; set; }
+        public bool IsAlive { get { return _isAlive; } set { _isAlive = value; } }
 
         public void RandomMove()
         {
