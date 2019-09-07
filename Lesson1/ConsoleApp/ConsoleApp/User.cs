@@ -8,19 +8,15 @@ namespace ConsoleApp
 {
     class User
     {
-        private int _id;
-        private string _name;
-        private int _salary;
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public int Salary { get; private set; }
 
         public User(int id, string name, int salary)
         {
-            _id = id;
-            _name = name;
-            _salary = salary;
+            Id = id;
+            Name = name;
+            Salary = salary;
         }
-
-        public int Id => _id;
-        public string Name => _name;
-        public int Salary => _salary;
     }
 }

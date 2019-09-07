@@ -10,9 +10,10 @@ namespace ConsoleApp
     {
         private List<User> _allUsers;
 
-        public List<User> AllUsers => _allUsers;
-
-
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _allUsers;
+        }
         public void AddUser(User user)
         {
             _allUsers.Add(user);
