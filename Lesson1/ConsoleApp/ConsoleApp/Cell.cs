@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
-    class Program
+    class Cell
     {
-        static void Main(string[] args)
+        public int Count;
+        public Item Item { get; }
+
+        public Cell(Item item)
         {
-            
+            Item = item;
         }
     }
-
-    
 }
