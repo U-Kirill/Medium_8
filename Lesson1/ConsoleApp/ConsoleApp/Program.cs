@@ -28,20 +28,20 @@ namespace ConsoleApp
                     }
                 }
 
+                objects.RemoveAll(obj => obj.IsAlive == false);
+
                 for (int i = 0; i < objects.Count; i++)
                 {
                     objects[i].RandomMove(random);
-                    TryVsualize(objects[i], i);
+                    Vsualize(objects[i], i);
                 }
             }
         }
-        static void TryVsualize(ElementaryParticle _object, int index)
+        static void Vsualize(ElementaryParticle _object, int index)
         {
-            if (_object.IsAlive)
-            {
+            // исправил потому что чекнул, твой комментарий про то, что метод визуализации должен затиматься только визуализацией
                 Console.SetCursorPosition(_object.Position.X, _object.Position.Y);
                 Console.Write(index + 1);
-            }
         }
     }
 }
