@@ -8,12 +8,10 @@ namespace ConsoleApp
 {
     abstract class Action
     {
-        public Action(Account account, Bank bank)
+        public Action(Bank bank)
         {
-            Account = account;
             Bank = bank;
         }
-        public Account Account { get; }
         public Bank Bank { get; }
 
         public abstract void Do();
@@ -22,15 +20,21 @@ namespace ConsoleApp
     class CreateAccount : Action
     {
         private string _name;
+        private int _quantity;
 
-        public CreateAccount(Account account, Bank bank, string name) : base(account, bank)
+        public CreateAccount(Bank bank, string name, int quantity) : base( bank)
         {
+            if (quantity < 0)
+                throw new InvalidOperationException();
+
             _name = name;
+            _quantity = quantity;
         }
         
         public override void Do()
         {
-            Bank.CreateAccount(_name);
+            Bank.CreateAccount(_name, _quantity);
+            Bank.AddAction(this);
         }
 
         public override void Undo()
@@ -42,68 +46,117 @@ namespace ConsoleApp
     class CloseAccount : Action
     {
         private string _name;
+        private int _quantity;
 
-        public CloseAccount(Account account, Bank bank, string name) : base(account, bank)
+        public CloseAccount(Bank bank, string name, int quantity) : base(bank)
         {
+            if (quantity < 0)
+                throw new InvalidOperationException();
+
             _name = name;
+            _quantity = quantity;
         }
 
         public override void Do()
         {
-            Bank.CloseAccount(_name);            
+            Bank.CloseAccount(_name);
+            Bank.AddAction(this);
         }
 
         public override void Undo()
         {
-            Bank.CreateAccount(_name);
+            Bank.CreateAccount(_name, _quantity);
         }
     }
     class TransferMoney : Action
     {
-        private string _nameFrom;
-        private string _nameTo;
+        private string _sender;
+        private string _recipient;
         private int _quantity;
 
-        public TransferMoney(Account account, Bank bank, string nameFrom, string nameTo, int quantity) : base(account, bank)
+        public TransferMoney(Bank bank, string sender, string recipient, int quantity) : base(bank)
         {
-            _nameFrom = nameFrom;
-            nameTo = _nameTo;
-            quantity = _quantity;
+            _sender = sender;
+            _recipient = recipient;
+            _quantity = quantity;
         }
 
         public override void Do()
         {
-            Bank.TransferMoney(_nameFrom, _nameTo, _quantity);
+            Bank.TransferMoney(_sender, _recipient, _quantity);
+            Bank.AddAction(this);
         }
 
         public override void Undo()
         {
-            Bank.TransferMoney(_nameTo, _nameFrom, _quantity);
+            Bank.TransferMoney(_recipient, _sender, _quantity);
         }
     }
 
 
     class Bank
     {
-        private List<Account> Accounts = new List<Account>();
+        private List<Account> _accounts = new List<Account>();
+        private List<Action> _actions = new List<Action>();
+        private int _id = 0;
 
-        public void CreateAccount(string name)
+        public void CreateAccount(string name, int quantity)
         {
-            Accounts.Add(new Account(Accounts.Count, name, new RussianRuble()));
+            Account newAccount = new Account(_id, name, new RussianRuble(), quantity);
+
+            if (!_accounts.Exists(user => user.Name == name))
+            {
+                _accounts.Add(newAccount);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+            _id++;
         }
 
         public void CloseAccount(string name)
         {
-            Accounts.RemoveAll(account => account.Name == name);
+            if (_accounts.Exists(account => account.Name == name))
+            {
+                _accounts.RemoveAll(account => account.Name == name);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         public void TransferMoney(string NameFrom, string NameTo, int quantity)
         {
-            Account accountFrom = Accounts.First(accounts => accounts.Name == NameFrom);
-            Account accountTo = Accounts.First(accounts => accounts.Name == NameTo);
+            Account accountFrom = _accounts.First(accounts => accounts.Name == NameFrom);
+            Account accountTo = _accounts.First(accounts => accounts.Name == NameTo);
 
             accountFrom.WithdrawMoney(quantity);
             accountTo.AddMoney(quantity);
+        }
+
+        public void AddAction(Action action)
+        {
+            _actions.Add(action);
+        }
+        public void Rollback()
+        {
+            if (_actions.Count < 1)
+                return;
+
+            Action action = _actions[_actions.Count - 1];
+            action.Undo();
+            _actions.Remove(action);
+        }
+
+        public Account GetAccountByName(string name)
+        {
+           return _accounts.First(account => account.Name == name);
+        }
+        public IEnumerable<Account> GetAllAccounts()
+        {
+            return _accounts;
         }
     }
 
@@ -111,14 +164,15 @@ namespace ConsoleApp
     {
         public int Id { get; }
         public string Name { get; }
+        public int Quantity => Storage.Quantity;
 
         private Storage Storage;
 
-        public Account(int id, string name, Currency currency)
+        public Account(int id, string name, Currency currency, int quantity)
         {
             Id = id;
             Name = name;
-            Storage = new Storage(currency, 0);
+            Storage = new Storage(currency, quantity);
         }
 
         public void AddMoney(int quantity)
