@@ -28,7 +28,7 @@ namespace ConsoleApp
             consoleElements.Add(new ConsoleElement(new TextField("Stay logged in"), 8, 13, 16, 3));
             consoleElements.Add(new ConsoleElement(new Checkbox(), 19, 13, 3, 3));
 
-            consoleElements.Add(new ConsoleElement(new Button(() => Console.Beep(), "ENTER"), 15,17,30,4));
+            consoleElements.Add(new ConsoleElement(new Button(() => Console.Beep(), "ENTER"), 15, 17, 30, 4));
 
             while (true)
             {
