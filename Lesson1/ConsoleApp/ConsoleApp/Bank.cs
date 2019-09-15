@@ -9,7 +9,7 @@ namespace ConsoleApp
     class Bank
     {
         private List<Account> _accounts = new List<Account>();
-        private List<Action> _actions = new List<Action>();
+        private List<BankAction> _actions = new List<BankAction>();
         private int _id = 0;
 
         public void CreateAccount(string name, int quantity)
@@ -48,7 +48,7 @@ namespace ConsoleApp
             accountTo.AddMoney(quantity);
         }
 
-        public void AddAction(Action action)
+        public void AddAction(BankAction action)
         {
             _actions.Add(action);
         }
@@ -57,7 +57,7 @@ namespace ConsoleApp
             if (_actions.Count < 1)
                 return;
 
-            Action action = _actions[_actions.Count - 1];
+            BankAction action = _actions[_actions.Count - 1];
             action.Undo();
             _actions.Remove(action);
         }

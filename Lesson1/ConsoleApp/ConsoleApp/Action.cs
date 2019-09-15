@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
-    abstract class Action
+    abstract class BankAction
     {
-        public Action(Bank bank)
+        public BankAction(Bank bank)
         {
             Bank = bank;
         }
@@ -17,7 +17,7 @@ namespace ConsoleApp
         public abstract void Do();
         public abstract void Undo();
     }
-    class CreateAccount : Action
+    class CreateAccount : BankAction
     {
         private string _name;
         private int _quantity;
@@ -43,7 +43,7 @@ namespace ConsoleApp
         }
     }
 
-    class CloseAccount : Action
+    class CloseAccount : BankAction
     {
         private string _name;
         private int _quantity;
@@ -68,7 +68,7 @@ namespace ConsoleApp
             Bank.CreateAccount(_name, _quantity);
         }
     }
-    class TransferMoney : Action
+    class TransferMoney : BankAction
     {
         private string _sender;
         private string _recipient;
