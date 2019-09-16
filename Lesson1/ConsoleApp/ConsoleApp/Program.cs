@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
@@ -10,6 +9,11 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
+            Network.SendRequestAsync("http://ijunior.ru/", (html) => Console.WriteLine(html));
+            Console.WriteLine("Request sended");
+            Console.ReadKey();
         }
     }
+    delegate void Callback(string html);
+    
 }
