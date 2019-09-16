@@ -56,7 +56,7 @@ namespace ConsoleApp
 
         public BigData()
         {
-            Data = new int[1000000];
+            Data = new int[100000];
             SomeGlobalClass.Instance.OnSomething += EventHandler;
         }
 
