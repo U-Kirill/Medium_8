@@ -43,8 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Button.cs" />
+    <Compile Include="Checkbox.cs" />
+    <Compile Include="ClickProcessor.cs" />
+    <Compile Include="ConsoleElement.cs" />
+    <Compile Include="Cursor.cs" />
+    <Compile Include="CursorPainter.cs" />
+    <Compile Include="ElementPainter.cs" />
+    <Compile Include="IElementContent.cs" />
+    <Compile Include="InputField.cs" />
+    <Compile Include="Painter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rect.cs" />
+    <Compile Include="TextField.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
