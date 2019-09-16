@@ -46,38 +46,4 @@ namespace Lesson3
             }
         }
     }
-    class Product
-    {
-        public string Name { get; }
-        public int Price { get; }
-        public int Level { get; }
-
-        public Product(string name, int price, int level)
-        {
-            Name = name;
-            Price = price;
-            Level = level;
-        }
-    }
-    class ProductNameComparer : IComparer<Product>
-    {
-        public int Compare(Product product1, Product product2)
-        {
-            return product1.Name.CompareTo(product2.Name);
-        }
-    }
-    class ProductPriceComparer : IComparer<Product>
-    {
-        public int Compare(Product product1, Product product2)
-        {
-            return product1.Price - product2.Price;
-        }
-    }
-    class ProductLevelComparer : IComparer<Product>
-    {
-        public int Compare(Product product1, Product product2)
-        {
-            return product1.Level - product2.Level;
-        }
-    }
 }
