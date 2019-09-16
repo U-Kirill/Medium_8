@@ -9,7 +9,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Network.SendRequestAsync("http://ijunior.ru/", (http) => Console.WriteLine(http));
+            Network.SendRequestAsync("http://ijunior.ru/", (html) => Console.WriteLine(html));
             Console.WriteLine("Request sended");
             Console.ReadKey();
         }
